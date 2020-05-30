@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.oreilly.books;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -30,15 +30,15 @@ public class BookController {
     }
 
     @PutMapping
-    public void update(@RequestBody Map<String, String> payload){
-        if( books.contains(payload.get("oldTitle")) ) {
-            books.set(books.indexOf(payload.get("oldTitle")),payload.get("newTitle"));
+    public void update(@RequestBody Map<String, String> payload) {
+        if (books.contains(payload.get("oldTitle"))) {
+            books.set(books.indexOf(payload.get("oldTitle")), payload.get("newTitle"));
         }
     }
 
     @DeleteMapping
-    public void delete(@RequestParam String title){
-        if(books.contains(title)){
+    public void delete(@RequestParam String title) {
+        if (books.contains(title)) {
             books.remove(books.indexOf(title));
         }
     }
