@@ -1,9 +1,8 @@
 package com.oreilly.books;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -13,7 +12,6 @@ public class BookController {
     private final BookService bookService;
 
     public BookController(BookService bookService) {
-        System.out.println("BookController() called...");
         this.bookService = bookService;
     }
 
@@ -23,13 +21,22 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public Book get(@PathVariable int id) {
-        return bookService.get(id);
+    public Book get(@PathVariable int id) throws BookNotFoundException {
+        Book book = bookService.get(id);
+        if( book == null ) {
+            throw new BookNotFoundException(id);
+        }
+        return book;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void create(@RequestBody Book book) {
-        bookService.create(book);
+    public void create(@RequestBody Book book) throws BookAlreadyExistsException {
+        if(bookService.exists(book)) {
+            throw new BookAlreadyExistsException(book);
+        } else {
+            bookService.create(book);
+        }
     }
 
     @PutMapping("/{id}")
@@ -37,6 +44,7 @@ public class BookController {
         bookService.update(book,id);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id){
         bookService.delete(id);

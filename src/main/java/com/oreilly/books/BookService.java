@@ -12,7 +12,6 @@ public class BookService {
     private List<Book> books;
 
     public BookService() {
-        System.out.println("BookService() called...");
         books = new ArrayList<>();
         books.add(new Book(1,"Hacking with Spring Boot 2.3","Greg L. Turnquist"));
         books.add(new Book(2,"97 Things Every Java Programmer Should Know", "Kevlin Henney and Trisha Gee"));
@@ -27,11 +26,16 @@ public class BookService {
         return books.stream().filter(b -> b.getId() == id).findFirst().orElse(null);
     }
 
-    public void create(Book book) {
+    public void create(Book book) throws BookAlreadyExistsException {
         if( book != null) {
             book.setId(books.size()+1);
             books.add(book);
         }
+    }
+
+    public boolean exists(Book book) {
+        Book found = books.stream().filter(b -> b.getTitle().toLowerCase().equals(book.getTitle().toLowerCase())).findFirst().orElse(null);
+        return found != null;
     }
 
     public void update(Book book, int id) {
