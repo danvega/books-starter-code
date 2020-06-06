@@ -34,6 +34,11 @@ public class BookService {
         }
     }
 
+    public boolean exists(Book book) {
+        Book found = books.stream().filter(b -> b.getTitle().toLowerCase().equals(book.getTitle().toLowerCase())).findFirst().orElse(null);
+        return found != null;
+    }
+
     public void update(Book book, int id) {
         Book currentBook = books.stream().filter(b -> b.getId() == id).findFirst().orElse(null);
         if(currentBook != null) {
