@@ -12,6 +12,7 @@ public class BookService {
     private List<Book> books;
 
     public BookService() {
+        System.out.println("BookService() called...");
         books = new ArrayList<>();
         books.add(new Book(1,"Hacking with Spring Boot 2.3","Greg L. Turnquist"));
         books.add(new Book(2,"97 Things Every Java Programmer Should Know", "Kevlin Henney and Trisha Gee"));
