@@ -39,6 +39,7 @@ public class BookController {
         }
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public void update(@RequestBody Book book, @PathVariable int id) {
         bookService.update(book,id);
